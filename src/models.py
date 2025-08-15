@@ -29,9 +29,9 @@ class User(db.Model):
 class Follower(db.Model):
     # Claves Foraneas
     user_from_id = db.Column(
-        db.Integer, db.ForeignKey('User.id'), primary_key=True)
+        db.Integer, db.ForeignKey('user.id'), primary_key=True)
     user_to_id = db.Column(
-        db.Integer, db.ForeignKey('User.id'), primary_key=True)
+        db.Integer, db.ForeignKey('user.id'), primary_key=True)
 
 
 class Post(db.Model):
@@ -39,7 +39,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Clave Foranea
-    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     # Relaciones
     author = db.relationship('User', back_populates='posts')
@@ -58,8 +58,8 @@ class Post(db.Model):
 class Media(db.Model):
     __tablename__ = 'Media'
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.Enum, nullable=False)
-    url = db.Column(db.String, nullable=False, unique=True)
+    type = db.Column(db.String(100), nullable=False)
+    url = db.Column(db.String(100), nullable=False, unique=True)
 
     # Clave Foranea
     post_id = db.Column(db.Integer, db.ForeignKey('Posts.id'), nullable=False)
@@ -79,12 +79,12 @@ class Media(db.Model):
 class Comment(db.Model):
     __tablename__ = 'Comments'
     id = db.Column(db.Integer, primary_key=True)
-    comment_text = db.Column(db.String, nullable=False)
+    comment_text = db.Column(db.String(100), nullable=False)
 
     # Claves Foraneas
     post_id = db.Column(db.Integer, db.ForeignKey('Posts.id'), nullable=False)
     author_id = db.Column(
-        db.Integer, db.ForeignKey('User.id'), nullable=False)
+        db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     # Relaciones
     author = db.relationship('User', back_populates='comments')
